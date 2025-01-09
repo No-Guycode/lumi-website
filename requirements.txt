@@ -1,0 +1,4 @@
+Necessary Libraries:-
+1.Flask
+2.openai
+3.python-dotenv
