@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Lumi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4; 
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .chat-container {
+            background-color: #fff; 
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: left;
+        }
+        .chat-box {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .input-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            background-color: #007BFF; 
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .acknowledgments {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: left;
+        }
+        .acknowledgments ul {
+            list-style: none;
+            padding: 0;
+        }
+        .acknowledgments li {
+            margin-bottom: 10px;
+        }
+        .how-it-works {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="acknowledgments">
+        <h3>Developers</h3>
+        <p>Special thanks to the following individuals for their contributions:</p>
+        <ul>
+            <li>Ahmed Bin Nabeel</li>
+            <li>Muhammad Rayyan</li>
+            <li>Saim Rehan</li>
+        </ul>
+        <p>Grade VIII-A</p>
+    </div>
+
+    <div class="chat-container">
+        <h1>Chat with Lumi</h1>
+        <div class="chat-box" id="chat-box">
+            <p><strong>Lumi:</strong> Hello! How can I assist you today? 😊</p> 
+        </div>
+        <input type="text" id="user-input" class="input-box" placeholder="Type your message..." />
+        <button class="btn" onclick="sendMessage()">Send</button>
+    </div>
+
+    <div class="how-it-works">
+        <h2>How Lumi Works</h2>
+        <p>
+            Lumi is powered by OpenAI's GPT-4 (Generative Pre-trained Transformer) model. When you type a message, Lumi sends your input to OpenAI's servers, which process the request and generate a response based on the model's understanding. The response is then displayed to you in the chat interface. Lumi uses natural language processing (NLP) to understand and reply to human-like conversations.
+        </p>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            if (userInput.trim() !== "") {
+                var chatBox = document.getElementById("chat-box");
+                chatBox.innerHTML += "<p><strong>You:</strong> " + userInput + "</p>";
+
+                // Send the user input to the server (replace with your actual server-side logic)
+                fetch('/query', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        'prompt': userInput
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    chatBox.innerHTML += "<p><strong>Lumi:</strong> " + data.response + "</p>";
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                })
+                .catch(error => {
+                    chatBox.innerHTML += "<p><strong>Lumi:</strong> Sorry, there was an error processing your request. 😕</p>";
+                });
+            }
+            document.getElementById("user-input").value = "";
+        }
+    </script>
+
+</body>
+</html>
